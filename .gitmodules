@@ -1,0 +1,6 @@
+[submodule "model/chatglm-6b"]
+	path = model/chatglm-6b
+	url = https://huggingface.co/THUDM/chatglm-6b
+[submodule "model/text2vec-large-chinese"]
+	path = model/text2vec-large-chinese
+	url = https://huggingface.co/GanymedeNil/text2vec-large-chinese
