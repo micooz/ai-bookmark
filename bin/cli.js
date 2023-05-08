@@ -1,19 +1,23 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { OpenAI } = require('langchain/llms/openai');
+const {
+  container,
+  ServiceKeys,
+  ChromeBookmark,
+  HTMLCollector,
+  FsCache,
+  Text2VecEmbeddings,
+  FsVectorStore,
+  ChatGLM,
+} = require('../lib');
 
-async function main () {
-  const model = new OpenAI({
-    openAIApiKey: process.env.OPENAI_API_KEY,
-    temperature: 0.9,
-  });
+container.bind(ServiceKeys.Bookmark).to(ChromeBookmark);
+container.bind(ServiceKeys.Collector).to(HTMLCollector);
+container.bind(ServiceKeys.Cache).to(FsCache);
+container.bind(ServiceKeys.Embeddings).to(Text2VecEmbeddings);
+container.bind(ServiceKeys.VectorStore).to(FsVectorStore);
+container.bind(ServiceKeys.LLM).to(ChatGLM);
 
-  const res = await model.call(
-    'What would be a good company name a company that makes colorful socks?'
-  );
-
-  console.log(res);
-}
-
-main();
+const argv = process.argv.slice(2);
+require('../lib/main').default(argv);

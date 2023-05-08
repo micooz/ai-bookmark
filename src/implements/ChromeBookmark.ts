@@ -1,17 +1,18 @@
-import type { IBookmark } from '../interfaces/IBookmark';
+import fs from 'fs-extra';
+import { injectable } from 'inversify';
 import os from 'os';
-import fs from 'fs';
-import { promisify } from 'util';
+import type { IBookmark } from '../interfaces/IBookmark';
+import type { BookmarkItem } from '../typings/bookmark';
 
-const readFile = promisify(fs.readFile);
-
-type BookmarkItem = {
+type ChromeBookmarkItem = {
   type: 'folder' | 'url';
   name: string;
   guid: string;
-  children?: BookmarkItem[];
+  url?: string;
+  children?: ChromeBookmarkItem[];
 };
 
+@injectable()
 export class ChromeBookmark implements IBookmark {
   async findPath(): Promise<string> {
     const homedir = os.homedir();
@@ -27,25 +28,45 @@ export class ChromeBookmark implements IBookmark {
     return '';
   }
 
-  async getUrls(): Promise<string[]> {
+  async getBookmarkList(): Promise<BookmarkItem[]> {
     const filePath = await this.findPath();
 
     if (!filePath) {
       throw new Error('filePath cannot be empty');
     }
 
-    let json: { roots: { bookmark_bar: BookmarkItem } };
+    let json: {
+      roots: { bookmark_bar: ChromeBookmarkItem; other: ChromeBookmarkItem };
+    };
 
     try {
-      const data = await readFile(filePath, 'utf-8');
+      const data = await fs.readFile(filePath, 'utf-8');
       json = JSON.parse(data);
     } catch (err: any) {
       throw new Error(`parse failed due to: ${err.message}`);
     }
 
+    // TODO: only read from roots.bookmark_bar and roots.other
+    const { bookmark_bar, other } = json.roots;
 
-    // TODO: now only read from roots.bookmark_bar
+    const urls = [bookmark_bar, other].map((item) => this.extract(item)).flat();
 
+    return urls;
+  }
+
+  private extract(item: ChromeBookmarkItem): BookmarkItem[] {
+    if (item.type === 'folder' && item.children?.length) {
+      return item.children.map((it) => this.extract(it)).flat();
+    }
+    if (item.type === 'url' && item.url) {
+      return [
+        {
+          id: item.guid,
+          name: item.name,
+          url: item.url,
+        },
+      ];
+    }
     return [];
   }
 }

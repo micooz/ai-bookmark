@@ -1,2 +1,3 @@
 # ai-bookmark
-An AI assistant for managing your bookmarks.
+
+An AI assistant for searching your bookmarks.
