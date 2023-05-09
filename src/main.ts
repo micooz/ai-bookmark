@@ -1,4 +1,5 @@
 import { PromisePool } from '@supercharge/promise-pool';
+import { prompt } from 'enquirer';
 import { ServiceKeys, container } from '.';
 import type { IBookmark } from './interfaces/IBookmark';
 import type { ICache } from './interfaces/ICache';
@@ -59,20 +60,32 @@ async function init() {
 
   await PromisePool.withConcurrency(10).for(bookmarks).process(task);
 
-  console.log('> all done.')
+  console.log('> all done.');
 }
 
 async function interaction() {
   const llm = container.get<ILLM>(ServiceKeys.LLM);
+  const cache = container.get<ICache>(ServiceKeys.Cache);
 
-  const question = 'CSS 三角形生成器';
+  if (await cache.isEmpty()) {
+    console.error('> 请先执行 npm run start:init');
+    return;
+  }
 
-  try {
-    console.log(`> Question:`, question);
-    const answer = await llm.ask(question);
-    console.log('< Answer:');
-    console.log(answer);
-  } catch (err: any) {
-    console.error('>', err.message);
+  while (true) {
+    const { question } = await prompt<{ question: string }>({
+      type: 'input',
+      name: 'question',
+      message: 'Question',
+    });
+
+    try {
+      console.log(`> Question:`, question);
+      const answer = await llm.ask(question);
+      console.log('< Answer:');
+      console.log(answer);
+    } catch (err: any) {
+      console.error('>', err.message);
+    }
   }
 }

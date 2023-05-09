@@ -13,6 +13,10 @@ export class FsCache implements ICache {
     return `${this.folder}/${bookmarkId}`;
   }
 
+  async isEmpty(): Promise<boolean> {
+    return fs.exists(this.folder);
+  }
+
   async has(bookmarkId: string): Promise<boolean> {
     const metadataJson = `${this.getSubDir(bookmarkId)}/metadata.json`;
     return fs.exists(metadataJson);

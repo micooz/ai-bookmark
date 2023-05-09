@@ -15,7 +15,7 @@ export class ChatGLM implements ILLM {
   ) {}
 
   async buildPrompt(context: string, question: string): Promise<string> {
-    return `已知信息：\n\n${context}\n\n根据以上信息，简洁且准确地回答问题，提供对应网站说明和网址，不要出现重复内容，不要拼凑网址或编造其他内容，如果无法找到答案，请说 “没有找到相关内容”。\n\n问题是：${question}`;
+    return `已知信息：\n\n${context}\n\n根据以上信息，准确地回答问题，在结果中列出网址和说明，不要出现重复内容，不要拼凑网址或编造其他内容，如果无法找到答案，请说 “没有找到相关内容”。\n\n问题是：${question}`;
   }
 
   async ask(question: string): Promise<string> {
@@ -23,7 +23,7 @@ export class ChatGLM implements ILLM {
 
     const similarDocuments = await this.vectorStore.similaritySearch(
       question,
-      5,
+      10,
     );
 
     const context = similarDocuments
@@ -67,7 +67,7 @@ class ChatGLMLLM extends BaseLLM {
           history: [],
           // max_length,
           // top_p,
-          temperature: 1.0,
+          // temperature: 1.0,
         },
       });
 

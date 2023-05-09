@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./bin/cli.js",
     "start:init": "node ./bin/cli.js init",
-    "start:text2vec": "python ./python/text2vec_api.py",
+    "start:embed": "python ./python/embed_api.py",
     "start:llm": "python ./python/llm_api.py",
     "watch": "tsc --watch",
     "build": "tsc"
@@ -15,6 +15,7 @@
     "@supercharge/promise-pool": "^2.4.0",
     "axios": "^1.4.0",
     "dotenv": "^16.0.3",
+    "enquirer": "^2.3.6",
     "fs-extra": "^11.1.1",
     "inversify": "^6.0.1",
     "langchain": "^0.0.68",
