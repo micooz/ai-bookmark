@@ -14,7 +14,7 @@ export class FsCache implements ICache {
   }
 
   async isEmpty(): Promise<boolean> {
-    return fs.exists(this.folder);
+    return !fs.exists(this.folder);
   }
 
   async has(bookmarkId: string): Promise<boolean> {
