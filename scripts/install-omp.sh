@@ -1,0 +1,1 @@
+sudo tar fvxz openmp-14.0.6-darwin20-Release.tar.gz -C /

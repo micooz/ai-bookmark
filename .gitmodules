@@ -4,3 +4,6 @@
 [submodule "model/text2vec-large-chinese"]
 	path = model/text2vec-large-chinese
 	url = https://huggingface.co/GanymedeNil/text2vec-large-chinese
+# [submodule "model/chatglm-6b-int4"]
+# 	path = model/chatglm-6b-int4
+# 	url = https://huggingface.co/THUDM/chatglm-6b-int4/

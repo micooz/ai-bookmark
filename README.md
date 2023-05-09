@@ -1,6 +1,6 @@
 # ai-bookmark
 
-> 本项目仅用作学习交流和技术可行性验证，请勿用于生产环境。
+> :warning: 本项目仅用作学习交流和技术可行性验证，请勿用于生产环境。
 
 一个基于 ChatGLM-6B 大语言模型和 Langchain 开发框架的用于搜索浏览器书签的 AI 助理。
 
@@ -15,9 +15,11 @@
 
 ## 软硬件要求
 
-- Python 3.x
+- Python 3.x（with PyTorch）
 - Node.js 18.x
 - 最低 16 GB 显存 
+
+> macOS 平台请参考[这个文档](https://developer.apple.com/metal/pytorch/)安装支持 MPS 加速的 PyTorch。
 
 ## 用法
 
@@ -27,7 +29,7 @@
 git clone --recurse-submodules https://github.com/micooz/ai-bookmark
 ```
 
-模型较大，若失败或太慢请使用魔法，手动下载并放置到对应位置：
+模型较大，若太慢或失败请使用魔法，手动下载并放置到对应位置：
 
 - `model/chatglm-6b`：https://huggingface.co/THUDM/chatglm-6b/tree/main
 - `model/text2vec-large-chinese`：https://huggingface.co/GanymedeNil/text2vec-large-chinese/tree/main
