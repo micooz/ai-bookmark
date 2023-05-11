@@ -2,6 +2,8 @@
 
 > :warning: 本项目仅用作学习交流和技术可行性验证，请勿用于生产环境。
 
+关联文章：[《大语言模型私有化部署和个性化调优的技术实践》](https://mp.weixin.qq.com/s/GbTw7G9glVQ6OdIf6ok9CA)。
+
 一个基于 ChatGLM-6B 大语言模型和 Langchain 开发框架的用于搜索浏览器书签的 AI 助理。
 
 支持离线私有部署，不依赖 OpenAI 等任何第三方 API。
