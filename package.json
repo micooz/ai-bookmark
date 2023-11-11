@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@supercharge/promise-pool": "^2.4.0",
-    "axios": "^1.4.0",
+    "axios": "^1.6.0",
     "dotenv": "^16.0.3",
     "enquirer": "^2.3.6",
     "fs-extra": "^11.1.1",
